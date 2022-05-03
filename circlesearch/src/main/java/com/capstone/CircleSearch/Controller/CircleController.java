@@ -3,6 +3,7 @@ package com.capstone.CircleSearch.Controller;
 import com.capstone.CircleSearch.Model.dao.CircleDAO;
 import com.capstone.CircleSearch.Model.dao.FindDAO;
 import com.capstone.CircleSearch.Model.dto.*;
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,24 +25,6 @@ public class CircleController {
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private FindDAO findDAO;
-
-
-    @GetMapping("/createTest")
-    public int createTable(@RequestBody InputCircleDTO inputCircleDTO)throws Exception{
-        return circleDAO.createTable(inputCircleDTO.getUrl());
-    }
-
-    @GetMapping("/test1")
-    public String nicknamego(@RequestBody InputCircleDTO inputCircleDTO) throws Exception{
-        FindDTO findDTO = new FindDTO();
-        findDTO.setCollege(inputCircleDTO.getCollege());
-        findDTO.setInterest(inputCircleDTO.getInterest());
-        findDTO.setRegion(inputCircleDTO.getRegion());
-        findDTO.setId(inputCircleDTO.getId());
-        return findDAO.findUsernickname(findDTO);
-
-    }
-
 
     @PostMapping("/circle/register/CoCircle")
     public int insertCircle(InputCircleDTO inputCircleDTO , MultipartFile file
@@ -68,7 +51,7 @@ public class CircleController {
 
 
     @PostMapping("/circle/register/UniCircle")
-    public int insertUniCircle(@RequestBody InputCircleDTO inputCircleDTO ,MultipartFile file) throws Exception{
+    public int insertUniCircle(InputCircleDTO inputCircleDTO ,MultipartFile file) throws Exception{
 
         String projectPath = "/Users/gimminsu/Capstone/Circle-Search/circlesearch/src/main/resources/static/files/Unicircle";
         UUID uuid = UUID.randomUUID();
@@ -89,7 +72,6 @@ public class CircleController {
         return circleDAO.insertUniCircle(param);
     }
 
-
     @GetMapping("/circle/uni")
     public List<UniCircleDTO> getUniCircle(@RequestParam String interest, @RequestParam String region) throws Exception {
         int iCode;
@@ -103,7 +85,6 @@ public class CircleController {
         } else rCode = 0;
         return circleDAO.selectUniCircle(iCode, rCode);
     }
-
 
 
     //4.	School로 교내동아리 정보 가져오는 API
@@ -143,6 +124,4 @@ public class CircleController {
     public int putUser_grade(@RequestParam String user_id, @RequestParam String circle_name) throws Exception{
         return circleDAO.editupgrade(user_id,circle_name);
     }
-
-
 }
