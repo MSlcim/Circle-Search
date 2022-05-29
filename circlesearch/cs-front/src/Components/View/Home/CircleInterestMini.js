@@ -1,18 +1,6 @@
 import React,{useState} from 'react'
 import {Box, Typography} from '@mui/material'
-import { makeStyles } from '@mui/styles';
 
-const LINES_TO_SHOW = 2;
-
-const useStyles = makeStyles({
-  multiLineEllipsis: {
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    display: "-webkit-box",
-    "-webkit-line-clamp": LINES_TO_SHOW,
-    "-webkit-box-orient": "vertical"
-  }
-});
 
 function CircleInterestMini(props) {
     const [CircleInfo, setCircleInfo] = useState({
@@ -22,11 +10,11 @@ function CircleInterestMini(props) {
     })
   return (
     <div>
-        <Box sx={{
+        <Box component="div" sx={{
             display: 'grid', gridTemplateRows: 'repeat(4, 60px)',
             width: '100%',
-             border: '1px solid grey'
-        }}>
+             border: '1px solid grey',
+        }} >
                     <Box sx={{
                         gridColumn: '1', gridRow: '1',
                         p: 2
@@ -45,6 +33,9 @@ function CircleInterestMini(props) {
                                 {CircleInfo.name}
                             </Typography>
                     </Box>
+                    <Box component="img" sx={{
+                        gridColumn: '1', gridRow:'2/4', p:2
+                    }}></Box>
                     <Box sx={{
                         gridColumn: '1', gridRow: '5', p: 2,
                     }}>

@@ -30,10 +30,10 @@ function App() {
     <TopPannel/>
     <div className='wrapper'>
     <div className='content_wrapper'>
-    <Container maxWidth= "sm" minWidth="sm" className='left_sidebar'>
+    <Container maxWidth= "sm" className='left_sidebar'>
       <LoginPage/>
     </Container>
-    <Container maxWidth="xl" minWidth="lg" fixed className='main_container'>
+    <Container maxWidth="xl" fixed className='main_container'>
     <Routes>
         <Route exact path="/" element={<HomePage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
@@ -54,10 +54,10 @@ function App() {
         <Route path="/circle/manage/:circleID/:userID" element={<CircleSiteManage/>}/>
     </Routes>
     </Container>
-    <Container maxWidth= "sm" minWidth="sm" className='right_sidebar'>
+    <Container maxWidth= "sm" className='right_sidebar'>
     </Container>
     </div>
-    <Footer/>ㅞㅡ 
+    <Footer/>
     </div>
     </div>
   );

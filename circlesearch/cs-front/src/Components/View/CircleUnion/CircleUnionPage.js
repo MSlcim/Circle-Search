@@ -5,7 +5,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import axios from 'axios';
-import {INTEREST_CODE, REGION_CODE} from '../../../static/type_codes.js'
+
 function CircleUnionPage() {
     const [circleList, setcircleList] = useState([]);
     const [interests, setinterests] = useState([]);

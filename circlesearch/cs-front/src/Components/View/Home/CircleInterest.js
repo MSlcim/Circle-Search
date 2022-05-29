@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Grid, Button, Box } from '@mui/material'
 import CircleInterestMini from './CircleInterestMini';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 function CircleInterest() {
@@ -11,6 +12,7 @@ function CircleInterest() {
 
 //  userID 기반 intereset 조회
     useEffect(() => {
+        
       const getInterestCircle = async() => {
           try {
               axios.get('/user/getInterest/category', {params : {user_id: userID}}).then((res) => setuserInterests(res.data));
@@ -18,16 +20,15 @@ function CircleInterest() {
               console.error(error.message);
           }
       }
-      getInterestCircle();
+      if (isLogined != undefined) {
+        getInterestCircle();
+      }
     }, [])
 
     useEffect(() => {
         getCircleListbyInterest(userInterests);
     },[userInterests])
 
-    useEffect(() => {
-        console.log(circleList);
-    },[circleList])
 
     const getCircleListbyInterest = (list) => {
         if (list.length > 0) {
@@ -43,18 +44,20 @@ function CircleInterest() {
         <h2>🌏 관심사 연합 동아리 소식</h2>
         <Grid container spacing={2}>
             <Grid item xs={6}>
-                <h3>{userInterests[0]}</h3>
+                <h2>{userInterests[0]}</h2>
                 <Grid container spacing ={2}>
                     {circleList.length > 0 ? circleList[0].map((circle)=>(
                         <Grid item xs = {6}>
-                        <CircleInterestMini name={circle.circle_name} purpose={circle.purpose}/>
+                        <Link to={`/circle/uni/${circle.url}`}>
+                            <CircleInterestMini name={circle.circle_name} purpose={circle.purpose}/>
+                        </Link>
                         </Grid>
                     ))
                     : <div></div>}
                 </Grid>
             </Grid>
             <Grid item xs={6}>
-                <h3>{userInterests[1]}</h3>
+                <h2>{userInterests[1]}</h2>
                 <Grid container spacing ={2}>
                 {circleList.length > 1 ? circleList[1].map((circle)=>(
                             <Grid item xs = {6}>

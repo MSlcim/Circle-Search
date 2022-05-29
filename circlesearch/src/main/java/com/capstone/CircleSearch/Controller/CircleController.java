@@ -46,8 +46,8 @@ public class CircleController {
 
 
     @PostMapping("/circle/register/CoCircle")
-    public int insertCircle(InputCircleDTO inputCircleDTO , MultipartFile file) throws  Exception{
-        String projectPath = "/Users/gimminsu/Capstone/Circle-Search/circlesearch/src/main/resources/static/files/Cocircle";
+    public int insertCoCircle(InputCircleDTO inputCircleDTO , MultipartFile file) throws  Exception{
+        String projectPath = "/Users/gimsehan/Develop/CapstoneProject/Circle-Search/circlesearch/src/main/resources/static/files/Cocircle";
         UUID uuid = UUID.randomUUID();
         String fileName = uuid + "_" + file.getOriginalFilename();
         File saveFile = new File(projectPath, fileName);
@@ -67,9 +67,9 @@ public class CircleController {
     }
 
     @PostMapping("/circle/register/UniCircle")
-    public int insertUniCircle(@RequestBody InputCircleDTO inputCircleDTO ,MultipartFile file) throws Exception{
+    public int insertUniCircle(InputCircleDTO inputCircleDTO, MultipartFile file) throws Exception{
 
-        String projectPath = "/Users/gimminsu/Capstone/Circle-Search/circlesearch/src/main/resources/static/files/Unicircle";
+        String projectPath = "/Users/gimsehan/Develop/CapstoneProject/Circle-Search/circlesearch/src/main/resources/static/files/Unicircle";
         UUID uuid = UUID.randomUUID();
         String fileName = uuid + "_" + file.getOriginalFilename();
         File saveFile = new File(projectPath, fileName);
@@ -87,7 +87,11 @@ public class CircleController {
         circleDAO.storeMyCircle(inputCircleDTO.getId(),inputCircleDTO.getCircle_name(),inputCircleDTO.getUrl());
         return circleDAO.insertUniCircle(param);
     }
-
+    @GetMapping("/test11")
+    public int testtestest(@RequestParam String interest) throws Exception{
+        FindDTO findDTO = new FindDTO("","",interest,"");
+        return findDAO.findInterestcode(findDTO);
+    }
     //get circle by interest and region
     @GetMapping("/circle/uni")
     public List<UniCircleDTO> getUniCircle(@RequestParam String interest, @RequestParam String region) throws Exception {
@@ -112,22 +116,16 @@ public class CircleController {
         return circleDAO.selectCoCircle(a);
     }
 
-    @GetMapping("/check/grade") //관리자 맞으면 Y 아니면 N
-    public String checkGrade(@RequestParam String user_id , @RequestParam String circle_name) throws Exception{
-       int grade = circleDAO.checkMygrade(user_id,circle_name);
-       String manager;
-       if (grade == 3 || grade ==2){
-           manager = "Y";
-       }
-       else{
-           manager = "N";
-       }
-       return manager;
+    @GetMapping("/check/grade") //1 2 3 혹은 null 로 나옴.
+    public ResponseEntity<Integer> checkGrade(@RequestParam String user_id , @RequestParam String circle_url) throws Exception{
+        Integer grade = circleDAO.checkMygrade(user_id,circle_url);
+        if (grade == null) return new ResponseEntity<>(0, HttpStatus.OK);
+        return new ResponseEntity<>(grade, HttpStatus.OK);
     }
 
     @GetMapping("/check/member") // circle_name입력 --> 회원아이디, 등급 나오는 API
-    public List<MyCircleDTO> checkCirclemember(@RequestParam String circle_name) throws Exception{
-        return circleDAO.circlemember(circle_name);
+    public List<MyCircleDTO> checkCirclemember(@RequestParam String circle_url) throws Exception{
+        return circleDAO.circlemember(circle_url);
     }
     @GetMapping("/check/circlename")
     public List<String> getCircle_name(@RequestParam String user_id) throws Exception{

@@ -29,7 +29,7 @@ public class BoardController {
         if ((board.getId() == null) || (board.getContents() == null) || (board.getTitle() == null)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        String projectPath = "/Users/gimminsu/Capstone/Circle-Search/circlesearch/src/main/resources/static/files";
+        String projectPath = "/Users/gimsehan/Develop/CapstoneProject/Circle-Search/circlesearch/src/main/resources/static/files";
         UUID uuid = UUID.randomUUID();
         String fileName = uuid + "_" + file.getOriginalFilename();
         File saveFile = new File(projectPath, fileName);

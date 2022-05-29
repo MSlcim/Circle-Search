@@ -16,7 +16,9 @@ function CircleInSchoolPage(props) {
         console.log(err);
       }
     }
-    getUserCollege();
+    if (isLogined != undefined){
+      getUserCollege();
+    }
   }, [])
   
   useEffect(() => {
@@ -33,7 +35,7 @@ function CircleInSchoolPage(props) {
 if(isLogined === 'true') {
   return (
     <div>
-      <h2>내 학교 동아리 소식</h2>
+      <h2>🏫 내 학교 동아리 소식</h2>
       <h3 style={{color: 'gray'}}>회원님의 학교: {userCollege}</h3>
       <Box sx={{
             pb: 3,

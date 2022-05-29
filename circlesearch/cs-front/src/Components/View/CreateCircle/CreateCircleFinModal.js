@@ -21,7 +21,7 @@ export default function CreateCircleFinModal(props) {
   }, [])
 
   const newTo = { 
-    pathname: `/Circle/${urlDiv}/${circleInfo.CircleAddress}`,
+    pathname: `/circle/${urlDiv}/${circleInfo.CircleAddress}`,
   };
   
   return (
@@ -45,7 +45,7 @@ export default function CreateCircleFinModal(props) {
           {circleInfo.CircleType == "연합" ? `지역 : ${circleInfo.CircleRegion.toString()}` : `학교 : ${circleInfo.CircleSchool}`}
           <br></br>
           분야 : {circleInfo.CircleInterest.toString()} <br></br>
-          링크 : http://www.circlesearch.com/Circle/{urlDiv}/{circleInfo.CircleAddress}<br></br>
+          링크 : http://www.circlesearch.com/circle/{urlDiv}/{circleInfo.CircleAddress}<br></br>
           설명 : {circleInfo.CirclePurpose}<br></br>
           </p>
           </Box>

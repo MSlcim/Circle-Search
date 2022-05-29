@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Container, Divider, Grid, TextField, Button, Checkbox,  FormControlLabel, FormLabel, FormControl, MenuItem } from '@mui/material';
+import { Container, Divider, Grid, TextField, Button, Checkbox, FormControlLabel, FormLabel, FormControl, MenuItem, Input, Typography } from '@mui/material';
 import {Box} from '@mui/system';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SchoolIcon from '@mui/icons-material/School';
@@ -17,6 +17,7 @@ function CreateCirclePage(props) {
     const [circleName, setcircleName] = useState("");
     const [circlePurpose, setcirclePurpose] = useState("");
     const [circleAddress, setcircleAddress] = useState("");
+    const [circleLogo, setcircleLogo] = useState();
     const regExpId = /^[0-9a-zA-Z]{1,20}$/; //5~20자리 영문 숫자만 입력가능
 
     const onClickStateHandler = (event) => {
@@ -39,6 +40,11 @@ function CreateCirclePage(props) {
         if (circleAddress === "") return false;
         else return !regExpId.test(circleAddress);
     }
+
+    const fileInputHandler = (e) => {
+        setcircleLogo(e.target.files[0]);
+    }
+
     return (
         <div>
             <Container component="main" maxWidth="md">
@@ -62,7 +68,7 @@ function CreateCirclePage(props) {
                     <FormLabel><h4>동아리 주소</h4></FormLabel>
                     <Grid sx={{borderBottom: 'solid grey 1px', bgcolor: '#F2F2F2'}} container>
                         <Grid sx={{pt: 3}}>
-                            <Box sx={{textAlign: 'right', fontSize: 'large', mr: 1, ml: 2}}>www.circlesearch.com/'co'또는'uni'/Circle/</Box></Grid>
+                            <Box sx={{textAlign: 'right', fontSize: 'large', mr: 1, ml: 2}}>www.circlesearch.com/'co'또는'uni'/circle/</Box></Grid>
                         <Grid item xs={5} >
                         <TextField required variant="outlined" fullWidth value={circleAddress} color="success" error={validateAddress()} onChange={onCircleAddressHandler} helperText={validateAddress() ? "영어 또는 숫자로만 입력해주세요!" : ""}></TextField>
                         </Grid>
@@ -71,6 +77,10 @@ function CreateCirclePage(props) {
                     <FormLabel><h4>동아리 설명</h4></FormLabel>
                     <TextField required fullWidth multiline rows={5} value={circlePurpose} color="success" onChange={onCirclePurposeHandler}></TextField>
                     </FormControl>
+                    <h4>동아리 대표 이미지</h4>
+                    <label htmlFor="contained-button-file">
+                        <Input accept="image/*"  type="file" onChange={(e) => {fileInputHandler(e)}} />
+                    </label>
                     <h3>동아리 구분 선택</h3>
                     <Grid container spacing={1}>
                         <Grid item xs = {6}>
@@ -87,7 +97,10 @@ function CreateCirclePage(props) {
                         </Grid>
                     </Grid>
                     <Divider sx={{mt: 5}}></Divider>
-                    {circleState === "" ? null : circleState === "연합" ? <CreateCircleUnion circleName={circleName} circlePurpose={circlePurpose} circleAddress={circleAddress}/> : <CreateCircleSchool circleName={circleName} circlePurpose={circlePurpose} circleAddress={circleAddress}/>}
+                    {circleState === "" ? null : 
+                     circleState === "연합" ? 
+                     <CreateCircleUnion circleName={circleName} circlePurpose={circlePurpose} circleAddress={circleAddress} circleLogo={circleLogo}/> 
+                     : <CreateCircleSchool circleName={circleName} circlePurpose={circlePurpose} circleAddress={circleAddress} circleLogo={circleLogo}/>}
                     </Box>
                 </Box>
             </Container>
@@ -96,6 +109,8 @@ function CreateCirclePage(props) {
     }
 
 export default CreateCirclePage
+
+
 
 function check1selected(arr) {
     if (arr.length !== 1) {
@@ -108,7 +123,7 @@ function check1selected(arr) {
 
 //연합동아리 생성 폼
 function CreateCircleUnion(props) {
-    const {circleName, circlePurpose, circleAddress} = props;
+    const {circleName, circlePurpose, circleAddress, circleLogo} = props;
     const [circleInfo, setcircleInfo] = useState({
         CircleType: "연합",
         CircleName: circleName,
@@ -121,7 +136,7 @@ function CreateCircleUnion(props) {
     const [regionList, setregionList] = useState([]);
     const [modalOpen, setmodalOpen] = useState(false);
 
-    const regionhandleChange =(event) => {
+    const regionhandleChange = (event) => {
         if (event.currentTarget.checked) {
         setregion((prev) => [
             ...prev, 
@@ -157,28 +172,34 @@ function CreateCircleUnion(props) {
         })
       }, [interest])
 
-    useEffect(()=> {
-        console.log(circleInfo)
-    }, [circleInfo])
 
     //연합 동아리 생성
     const sendNewCircleUnion = () => {
         if (check1selected(interest) && check1selected(region)) {
-        let body = {
-            region: circleInfo.CircleRegion[0],
-            interest: circleInfo.CircleInterest[0],
-            circle_name : circleInfo.CircleName,
-            url : circleInfo.CircleAddress,
-            id : sessionStorage.getItem("userID"),
-            purpose : circleInfo.CirclePurpose
-        }
-        axios.post('/circle/register/UniCircle', body).then((res) => {
+            const formData = new FormData();
+            formData.append('region', circleInfo.CircleRegion[0]);
+            formData.append('interest', circleInfo.CircleInterest);
+            formData.append('circle_name', circleInfo.CircleName);
+            formData.append('id', sessionStorage.getItem("userID"));
+            formData.append('purpose', circleInfo.CirclePurpose);
+            formData.append('url', circleInfo.CircleAddress)
+            formData.append('file', circleLogo);
+        axios.post('/circle/register/UniCircle', formData, {
+            headers: {
+                'Content-Type' : 'multipart/form-data'
+            }
+        }).then((res) => {
             if (res.data === 1) {setmodalOpen(true);}
             else {alert('오류발생');}
         });
         setmodalOpen(true)
     }
         //axios 통신 이후 생성 완료 창 생성
+
+    //fileHandle 
+    const formData = new FormData();
+    formData.append('file', circleLogo);
+
     }
 
     const handleModalClose = () => {
@@ -214,7 +235,7 @@ function CreateCircleUnion(props) {
 
 //교내동아리 생성 폼
 function CreateCircleSchool(props) {
-    const {circleName, circlePurpose, circleAddress} = props;
+    const {circleName, circlePurpose, circleAddress, circleLogo} = props;
     const [circleInfo, setcircleInfo] = useState({
         CircleType: "교내",
         CircleName: circleName,
@@ -264,15 +285,18 @@ function CreateCircleSchool(props) {
 
     const sendNewCircleSchool = () => {
         if (check1selected(interest)) {
-        let body = {
-            college: circleInfo.CircleSchool,
-            interest: circleInfo.CircleInterest[0],
-            circle_name : circleInfo.CircleName,
-            url : circleInfo.CircleAddress,
-            id : sessionStorage.getItem("userID"),
-            purpose : circleInfo.CirclePurpose,
-        }
-        axios.post('/circle/register/CoCircle', body).then((res) => {
+            const formData = new FormData();
+            formData.append('college', circleInfo.CircleSchool);
+            formData.append('interest', circleInfo.CircleInterest);
+            formData.append('circle_name', circleInfo.CircleName);
+            formData.append('id', sessionStorage.getItem("userID"));
+            formData.append('purpose', circleInfo.CirclePurpose);
+            formData.append('url', circleInfo.CircleAddress)
+            formData.append('file', circleLogo);
+        axios.post('/circle/register/CoCircle', formData, {
+            headers: {
+                'Content-Type' : 'multipart/form-data'
+            }}).then((res) => {
             if (res.data === 1) {setmodalOpen(true);}
             else {alert('오류발생');}
         });
