@@ -23,9 +23,8 @@
             `user_nickname` varchar (45) NULL,
             `deleted` varchar(1) NULL,
             PRIMARY KEY (`index`))
-
-
     </update>
+
     <update id="createRequestTable" parameterType="String" >
         CREATE table if not exists ${url}Request_tb(
             `index` int NOT NULL AUTO_INCREMENT,
@@ -58,16 +57,16 @@
         WHERE college_code = #{college_code}
     </select>
 
-    <select id="checkMygrade" parameterType="String" resultType="int">
+    <select id="checkMygrade" parameterType="String" resultType="Integer">
         SELECT grade
         FROM MyCircle_tb
-        WHERE user_id = #{user_id} AND circle_name = #{circle_name}
+        WHERE user_id = #{user_id} AND url = #{circle_url}
     </select>
 
     <select id="circlemember" parameterType="String" resultType="com.capstone.CircleSearch.Model.dto.MyCircleDTO">
-        SELECT user_id,grade
+        SELECT index, user_id,grade
         FROM MyCircle_tb
-        WHERE circle_name=#{circle_name}
+        WHERE url=#{circle_url}
     </select>
     <select id="getcirclename" parameterType="String" resultType="String">
         SELECT circle_name
@@ -86,4 +85,16 @@
        WHERE user_id=#{user_id}
         AND circle_name = #{circle_name}
    </update>
+
+    <select id="getCircleCoInfo" parameterType="String" resultType="com.capstone.CircleSearch.Model.dto.CoCircleDTO">
+        SELECT *
+        FROM CoCircle_tb
+        WHERE url = #{circle_url}
+    </select>
+
+    <select id="getCircleUniInfo" parameterType="String" resultType="com.capstone.CircleSearch.Model.dto.UniCircleDTO">
+        SELECT *
+        FROM UniCircle_tb
+        WHERE url = #{circle_url}
+    </select>
 </mapper>

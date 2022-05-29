@@ -12,8 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UniCircleDTO {
     private int index;
-    private int interest_code;
     private int region_code;
+    private int interest_code;
     private String circle_name;
     private String purpose;
     private String url;

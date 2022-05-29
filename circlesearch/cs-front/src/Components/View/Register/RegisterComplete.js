@@ -5,8 +5,6 @@ import { Container } from '@mui/material'
 
 function RegisterComplete() {
   
-  const getNickname = 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [])

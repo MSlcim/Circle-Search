@@ -10,6 +10,8 @@ public interface FindDAO {
     int findRegioncode(FindDTO param) throws Exception;
     int findCollegecode(FindDTO param) throws Exception;
     String findUsernickname(FindDTO param) throws Exception;
+    int findUserCollege(FindDTO param) throws Exception;
+    String findCollegeByCode(int college_code) throws Exception;
     String selectCategory1(int interest1) throws Exception;
     String selectCategory2(int interest2) throws Exception;
     int findUserInterest1(String user_id) throws Exception;

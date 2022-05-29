@@ -28,6 +28,19 @@
         FROM User_tb
         WHERE user_id = #{id}
     </select>
+
+    <select id="findUserCollege" parameterType="com.capstone.CircleSearch.Model.dto.FindDTO" resultType="int">
+        SELECT user_college
+        FROM User_tb
+        WHERE user_id = #{id}
+    </select>
+
+    <select id="findCollegeByCode" parameterType="int" resultType="String">
+        SELECT college_name
+        FROM College_tb
+        WHERE college_code = #{college_code}
+    </select>
+
     <select id="findUserInterest1" parameterType="String" resultType="int">
         SELECT user_interest1
         FROM User_tb

@@ -29,13 +29,13 @@ function App() {
     <div className="App">
     <TopPannel/>
     <div className='wrapper'>
+    <div className='content_wrapper'>
     <Container maxWidth= "sm" className='left_sidebar'>
       <LoginPage/>
     </Container>
-    <Container maxWidth="lg" className='main_container'>
+    <Container maxWidth="xl" fixed className='main_container'>
     <Routes>
         <Route exact path="/" element={<HomePage/>}/>
-
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/oauth/kakao/:use" element={<Auth />}/>
         <Route path="/register1" element={<RegisterPage1/>}/>
@@ -50,14 +50,15 @@ function App() {
         <Route path="/community" element={<CommunityPage/>}/>
         <Route path="/community/write" element={<CommunityWritePage/>}/>
         <Route path="/create/circle/new" element={<CreateCirclePage/>}/>
-        <Route path="/Circle/:circleID" element={<CircleSiteBase/>}/>
-        <Route path="/Circle/manage/:circleID/:userID" element={<CircleSiteManage/>}/>
+        <Route path="/circle/:UniCo/:circleUrl" element={<CircleSiteBase/>}/>
+        <Route path="/circle/manage/:circleID/:userID" element={<CircleSiteManage/>}/>
     </Routes>
     </Container>
     <Container maxWidth= "sm" className='right_sidebar'>
     </Container>
     </div>
     <Footer/>
+    </div>
     </div>
   );
 }

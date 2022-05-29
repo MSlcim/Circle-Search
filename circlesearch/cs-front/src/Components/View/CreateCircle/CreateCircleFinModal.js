@@ -5,18 +5,23 @@ import {Link} from 'react-router-dom'
 
 export default function CreateCircleFinModal(props) {
   const {onClose, open, circleInfo} = props;
-  const [circleManager, setcircleManager] = useState(sessionStorage.getItem("userID"))
-  
+  const circleManager = sessionStorage.getItem("userID");
+  const [urlDiv, seturlDiv] = useState();
+
   const handleClose = () => {
-    onClose()
+    onClose();
   }
 
   useEffect(() => {
-    console.log(circleInfo);
+    if (circleInfo.CircleType === "연합") {
+      seturlDiv("uni");
+    } else {
+      seturlDiv("co");
+    }
   }, [])
 
   const newTo = { 
-    pathname: `/Circle/${circleInfo.CircleAddress}`,
+    pathname: `/circle/${urlDiv}/${circleInfo.CircleAddress}`,
   };
   
   return (
@@ -35,11 +40,12 @@ export default function CreateCircleFinModal(props) {
                 }}>
           <p style={{lineHeight: '140%', fontSize: 18}}>
           이름 : {circleInfo.CircleName}<br></br>
+          매니저 ID : {circleManager}<br></br>
           구분 : {circleInfo.CircleType}<br></br>
           {circleInfo.CircleType == "연합" ? `지역 : ${circleInfo.CircleRegion.toString()}` : `학교 : ${circleInfo.CircleSchool}`}
           <br></br>
           분야 : {circleInfo.CircleInterest.toString()} <br></br>
-          링크 : http://www.circlesearch.com/Circle/{circleInfo.CircleAddress}<br></br>
+          링크 : http://www.circlesearch.com/circle/{urlDiv}/{circleInfo.CircleAddress}<br></br>
           설명 : {circleInfo.CirclePurpose}<br></br>
           </p>
           </Box>

@@ -139,5 +139,17 @@ public class UserController {
         FindDTO findDTO = new FindDTO(null, null, null, user_id);
         return findDAO.findUsernickname(findDTO);
     }
+
+    @GetMapping("/user/getCollege")
+    public String getUserCollege(@RequestParam String user_id) throws Exception{
+        FindDTO findDTO = new FindDTO(null, null, null, user_id);
+        int code = findDAO.findUserCollege(findDTO);
+        return findDAO.findCollegeByCode(code);
+    }
+
+    @GetMapping("/collegeName")
+    public String getCollegeName(@RequestParam int college_code) throws Exception{
+        return findDAO.findCollegeByCode(college_code);
+    }
 }
 

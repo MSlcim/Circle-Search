@@ -7,20 +7,6 @@ const regExpPw = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/; //비밀번호 8�
 const regExpId = /^[0-9a-z]{5,20}$/; //5~20자리 영문 숫자만 입력가능
 
 
-//ID 유효성 검사
-// export const ValidateID = (props) =>{
-//     const userID = props.userID
-//     if (userID == "") {
-//         return <div></div>
-//     }
-//     if (regExpId.test(userID)) {
-//         return <AlertID isPassed={true}/>
-//     }
-//     else {
-//         return <AlertID isPassed={false}/>
-//     }
-// }
-
 export const ValidateID = (input) => {
     return regExpId.test(input)
 }

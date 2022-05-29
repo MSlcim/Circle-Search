@@ -9,8 +9,12 @@ a:focus { text-decoration: none; }
 a:hover, a:active { text-decoration: none; }
 
 .wrapper {
+  background-color: rgba(232, 237, 234, 0.5);
+}
+
+.content_wrapper {
   max-width: 1920px;
-  width: 100%;
+  min-width: 720px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -20,16 +24,19 @@ a:hover, a:active { text-decoration: none; }
 }
 
 .left_sidebar {
+  min-width: 320px;
   grid-column: 1;
-  border-right: 1px solid grey;
   border-top: 0px;
   border-bottom: 0px;
 }
 
 .main_container {
+  padding-top: 20px;
+  min-width: 1280px;
   grid-column: 2/6;
   border-top: 0px;
   border-bottom: 0px;
+  background-color: rgba(255,255,255);
 }
 
 .right_sidebar {

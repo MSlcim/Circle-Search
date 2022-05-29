@@ -57,7 +57,7 @@ function UserLogined(props) {
     <div style={{ width: '100%', justifyContent: 'center', alignContent: 'center' }}>
         <center>
         <h1>CircleSearch</h1>
-        <h3>{userID} 님 환영합니다.</h3>
+        <h3>내가 찾는 모든 동아리 소식</h3>
         </center>
         <div align='right' style={{paddingRight: 4}}>
                 <Button><Link to="/myPage">마이페이지</Link></Button>
