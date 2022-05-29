@@ -73,4 +73,10 @@
         WHERE circle_name=#{circle_name}
     </select>
 
+    <select id="findBoardfile" parameterType="int" resultType="String">
+        SELECT filepath
+        FROM Board_tb
+        WHERE seq=#{seq}
+    </select>
+
 </mapper>

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface FindDAO {
-
     int findInterestcode(FindDTO param) throws Exception;
     int findRegioncode(FindDTO param) throws Exception;
     int findCollegecode(FindDTO param) throws Exception;
@@ -19,4 +18,5 @@ public interface FindDAO {
     int findUserInterest2(String user_id) throws Exception;
     String findCocircleurl(String circle_name) throws Exception;
     String findUnicircleurl(String circle_name) throws Exception;
+    String findBoardfile(int seq) throws Exception;
 }

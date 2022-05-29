@@ -2,6 +2,7 @@ package com.capstone.CircleSearch.Controller;
 
 
 import com.capstone.CircleSearch.Model.dao.BoardDAO;
+import com.capstone.CircleSearch.Model.dao.FindDAO;
 import com.capstone.CircleSearch.Model.dto.BoardDTO;
 import com.capstone.CircleSearch.Model.dto.ListDTO;
 import org.mybatis.spring.annotation.MapperScan;
@@ -23,6 +24,8 @@ public class BoardController {
 
     @Autowired
     private BoardDAO boardDAO;
+    @Autowired
+    private FindDAO findDAO;
 
     @RequestMapping(value = "/board", method = RequestMethod.POST)
     public ResponseEntity<BoardDTO> postBoard(BoardDTO board, MultipartFile file) throws Exception {
@@ -47,6 +50,7 @@ public class BoardController {
         param.setSeq(seq);
 
         boardDAO.addBoardReadCount(param);
+
         BoardDTO board = boardDAO.getBoard(param);
         if (board == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         else return new ResponseEntity<>(board, HttpStatus.OK);
@@ -87,5 +91,8 @@ public class BoardController {
     }
 
 
-
+    @GetMapping("get/boardfile/{seq}")
+    public String getBoardfile(@PathVariable("seq") final int seq) throws Exception{
+        return findDAO.findBoardfile(seq);
+    }
 }

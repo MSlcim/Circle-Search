@@ -3,6 +3,7 @@ package com.capstone.CircleSearch.Controller;
 import com.capstone.CircleSearch.Model.dao.CircleDAO;
 import com.capstone.CircleSearch.Model.dao.FindDAO;
 import com.capstone.CircleSearch.Model.dto.*;
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,24 +28,6 @@ public class CircleController {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private FindDAO findDAO;
 
-
-    @GetMapping("/createTest")
-    public int createTable(@RequestBody InputCircleDTO inputCircleDTO)throws Exception{
-        return circleDAO.createTable(inputCircleDTO.getUrl());
-    }
-
-    @GetMapping("/test1")
-    public String nicknamego(@RequestBody InputCircleDTO inputCircleDTO) throws Exception{
-        FindDTO findDTO = new FindDTO();
-        findDTO.setCollege(inputCircleDTO.getCollege());
-        findDTO.setInterest(inputCircleDTO.getInterest());
-        findDTO.setRegion(inputCircleDTO.getRegion());
-        findDTO.setId(inputCircleDTO.getId());
-        return findDAO.findUsernickname(findDTO);
-
-    }
-
-
     @PostMapping("/circle/register/CoCircle")
     public int insertCoCircle(InputCircleDTO inputCircleDTO , MultipartFile file) throws  Exception{
         String projectPath = "/Users/gimsehan/Develop/CapstoneProject/Circle-Search/circlesearch/src/main/resources/static/files/Cocircle";
@@ -67,8 +50,8 @@ public class CircleController {
     }
 
     @PostMapping("/circle/register/UniCircle")
-    public int insertUniCircle(InputCircleDTO inputCircleDTO, MultipartFile file) throws Exception{
 
+    public int insertUniCircle(InputCircleDTO inputCircleDTO, MultipartFile file) throws Exception{
         String projectPath = "/Users/gimsehan/Develop/CapstoneProject/Circle-Search/circlesearch/src/main/resources/static/files/Unicircle";
         UUID uuid = UUID.randomUUID();
         String fileName = uuid + "_" + file.getOriginalFilename();
@@ -87,12 +70,7 @@ public class CircleController {
         circleDAO.storeMyCircle(inputCircleDTO.getId(),inputCircleDTO.getCircle_name(),inputCircleDTO.getUrl());
         return circleDAO.insertUniCircle(param);
     }
-    @GetMapping("/test11")
-    public int testtestest(@RequestParam String interest) throws Exception{
-        FindDTO findDTO = new FindDTO("","",interest,"");
-        return findDAO.findInterestcode(findDTO);
-    }
-    //get circle by interest and region
+
     @GetMapping("/circle/uni")
     public List<UniCircleDTO> getUniCircle(@RequestParam String interest, @RequestParam String region) throws Exception {
         int iCode;
@@ -151,5 +129,4 @@ public class CircleController {
         UniCircleDTO circleInfo = circleDAO.getCircleUniInfo(url);
         return new ResponseEntity<>(circleInfo, HttpStatus.OK);
     }
-
 }
